@@ -1,24 +1,50 @@
 class CommentsController < ApplicationController
+  load_and_authorize_resource
+  def index
+    @posts = Post.find(params[:post_id])
+    @user = User.find(params[:user_id])
+    @comments = Comment.find(params[:comment_id])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @comments }
+    end
+  end
+
   def new
-    @comment = Comment.new
+    @user = User.find(params[:user_id])
+    @post = @user.posts.find(params[:post_id])
   end
 
   def create
-    post = Post.find(params[:id])
-    p post.text
-    @comment = current_user.comments.new(
-      author_id: current_user.id,
-      post_id: post.id,
-      text: comment_params
-    )
+    @user = User.find(params[:user_id])
+    @post = Post.find(params[:post_id])
+    @post = Post.find(params[:post_id])
 
-    @comment.save if @comment.valid?
-    redirect_to user_post_path(current_user, post.id)
+    @comment = @post.comments.new(comment_params)
+    @comment.author = @user
+    respond_to do |format|
+      if @comment.save
+        format.html { redirect_to request.referrer, notice: 'comment was successfully created.' }
+        format.json { render Json: @comment, status: :created }
+      else
+        format.html { render :new }
+        format.json do
+          render json: @comment, status: :created
+        end
+      end
+    end
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    redirect_to request.referrer
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:text)[:text]
+    params.require(:comment).permit(:text)
   end
 end
