@@ -62,7 +62,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_153247) do
     t.string "unconfirmed_email"
     t.string "role", default: "author"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, where: "((email IS NOT NULL) AND ((email)::text <> ''::text))"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
