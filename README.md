@@ -154,12 +154,6 @@ Example:
 
 ## 👥 Authors <a name="authors"></a>
 
-👤 **Rudy Menekam**
-
-- GitHub: [@githubhandle](https://github.com/Rudy-Menekam)
-- Twitter: [@twitterhandle](https://twitter.com/MenekamR)
-- LinkedIn: [linkedIn](https://www.linkedin.com/in/menekam-rudy/)
-
 👤 **Kigozi Joseph*
 
 - GitHub: [Zeph180](https://github.com/zeph180)
