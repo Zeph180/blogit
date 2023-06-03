@@ -1,15 +1,24 @@
 class PostsController < ApplicationController
   load_and_authorize_resource
-  skip_before_action :verify_authenticity_token, only: %i[destroy create]
-
+  protect_from_forgery prepend: true
   def index
     @user = User.find(params[:user_id])
     @posts = @user.posts.includes(:comments)
+    respond_to do |format|
+      format.html
+      format.xml { render xml: @posts }
+      format.json { render json: @posts, status: :ok }
+    end
   end
 
   def show
     @post = Post.find(params[:id])
     @user = User.find(@post.author_id)
+    respond_to do |format|
+      format.html
+      format.xml { render xml: @posts.comments }
+      format.json { render json: @posts.comments }
+    end
   end
 
   def new
