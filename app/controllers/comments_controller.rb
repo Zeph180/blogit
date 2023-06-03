@@ -12,10 +12,11 @@ class CommentsController < ApplicationController
     @comment = @post.comments.new(comment_params)
     @comment.author = @user
     if @comment.save
-      redirect_to request.referrer
+      flash[:success] = 'Comment was successfully created.'
     else
-      render :new
+      flash[:error] = 'Comment was not created.'
     end
+    redirect_to user_post_path(@user, @post)
   end
 
   def destroy
